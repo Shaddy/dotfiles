@@ -329,3 +329,14 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
 " disable auto-trigger
 let g:completor_auto_trigger = 0
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>"
+
+" dummy binds to fast test rust crates
+function CargoTest() range
+  echo system('cargo test')
+endfunction
+
+function CargoRun() range
+  echo system('cargo run')
+endfunction
+
+nnoremap <leader>t :call CargoTest()<CR>
