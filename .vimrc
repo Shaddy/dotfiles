@@ -12,6 +12,7 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'maralla/completor.vim'
 Plug 'chiel92/vim-autoformat'
 Plug 'ciaranm/detectindent'
 Plug 'junegunn/fzf',                        { 'do': 'yes \| ./install' }
@@ -48,9 +49,9 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'nanotech/jellybeans.vim'
 Plug 'chriskempson/base16-vim'
 
-if has("python")
-    Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer --gocode-completer --tern-completer --racer-completer' }
-endif
+"if has("python")
+    "Plug 'valloric/youcompleteme', { 'do': './install.py --clang-completer --gocode-completer --tern-completer --racer-completer' }
+"endif
 
 call plug#end()
 
@@ -296,45 +297,6 @@ nnoremap <F10> :NERDTreeToggle<CR>
 
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" youcompleteme
-let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
-let g:ycm_extra_conf_globlist=['~/.vim/*']
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_rust_src_path='/Users/sherab/rust/'
-let g:ycm_filetype_blacklist={
-            \ 'vim' : 1,
-            \ 'tagbar' : 1,
-            \ 'qf' : 1,
-            \ 'notes' : 1,
-            \ 'markdown' : 1,
-            \ 'md' : 1,
-            \ 'unite' : 1,
-            \ 'text' : 1,
-            \ 'vimwiki' : 1,
-            \ 'pandoc' : 1,
-            \ 'infolog' : 1,
-            \ 'objc' : 1,
-            \ 'mail' : 1
-            \}
-
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType rust setlocal omnifunc=rustcomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-autocmd FileType haskell setlocal omnifunc=necoghc#omnifunc
-
-nnoremap <F11> :YcmForceCompileAndDiagnostics<CR>
-nnoremap <F12> :YcmDiags<CR>
-
-nnoremap <silent> <Leader>yd :YcmCompleter GetDoc<CR>
-nnoremap <silent> <Leader>yf :YcmCompleter FixIt<CR>
-nnoremap <silent> <Leader>yg :YcmCompleter GoTo<CR>
-nnoremap <silent> <Leader>yi :YcmCompleter GoToInclude<CR>
-nnoremap <silent> <Leader>yt :YcmCompleter GetType<CR>
-
 " vim-autoformat
 vnoremap = :Autoformat<CR>
 nnoremap == :Autoformat<CR>
@@ -357,10 +319,13 @@ let g:syntastic_cpp_checkers=['clang_check', 'clang_tidy', 'gcc', 'cppcheck']
 let g:syntastic_javascript_checkers = ['jshint', 'jslint']
 let g:syntastic_python_checkers=['pylint','pyflakes']
 
-au FileType rust nmap gd <Plug>(rust-def)
-au FileType rust nmap gs <Plug>(rust-def-split)
-au FileType rust nmap gx <Plug>(rust-def-vertical)
-au FileType rust nmap <leader>gd <Plug>(rust-doc)
+" completer
+let g:completor_racer_binary = '/Users/sherab/.cargo/bin/racer'
 
-" vim-cargo
-"au FileType rust nmap <leader>t :call execute('!cargo test')<CR>
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
+
+" disable auto-trigger
+"let g:completor_auto_trigger = 0
+"inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>"
