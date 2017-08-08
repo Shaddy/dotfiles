@@ -332,6 +332,7 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<C-x>\<C-u>\<C-p>"
 
 " dummy binds to fast test rust crates
 function CargoTest() range
+  silent! wa
   echo system('cargo test')
 endfunction
 
